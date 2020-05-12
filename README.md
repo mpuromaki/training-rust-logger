@@ -1,5 +1,7 @@
 # training-rust-logger - simplelog - NOT FOR PRODUCTION USE
 
+[See Rustdoc automatically generated documentation. Hosted by Github Pages.](https://mpuromaki.github.io/training-rust-logger/simplelog/index.html)
+
 Simple multithreading compatible logger made as a training project in Rust language.
 
 ## Functionality
