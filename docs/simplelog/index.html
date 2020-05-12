@@ -1,0 +1,44 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="API documentation for the Rust `simplelog` crate."><meta name="keywords" content="rust, rustlang, rust-lang, simplelog"><title>simplelog - Rust</title><link rel="stylesheet" type="text/css" href="../normalize.css"><link rel="stylesheet" type="text/css" href="../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../dark.css"><link rel="stylesheet" type="text/css" href="../light.css" id="themeStyle"><script src="../storage.js"></script><noscript><link rel="stylesheet" href="../noscript.css"></noscript><link rel="shortcut icon" href="../favicon.ico"><style type="text/css">#crate-search{background-image:url("../down-arrow.svg");}</style></head><body class="rustdoc mod"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../simplelog/index.html'><div class='logo-container'><img src='../rust-logo.png' alt='logo'></div></a><p class='location'>Crate simplelog</p><div class="sidebar-elems"><a id='all-types' href='all.html'><p>See all simplelog's items</p></a><div class="block items"><ul><li><a href="#reexports">Re-exports</a></li><li><a href="#modules">Modules</a></li><li><a href="#structs">Structs</a></li></ul></div><p class='location'></p><script>window.sidebarCurrent = {name: 'simplelog', ty: 'mod', relpath: '../'};</script></div></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../theme.js"></script><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" disabled autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><a id="settings-menu" href="../settings.html"><img src="../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><h1 class='fqn'><span class='out-of-band'><span id='render-detail'><a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">[<span class='inner'>&#x2212;</span>]</a></span><a class='srclink' href='../src/simplelog/lib.rs.html#1-260' title='goto source code'>[src]</a></span><span class='in-band'>Crate <a class="mod" href=''>simplelog</a></span></h1><div class='docblock'><p>training-rust-logger, named simplelog</p>
+<p>!! This crate is not meant for production use. It is
+personal Rust training project. If it helps you in some way
+then feel free to use it. You have been warned. !!</p>
+<p>Library for simple logging functionality with multi-threading support.</p>
+<p>This crate uses logging approach where the <a href="../simplelog/backend/struct.Backend.html">Backend</a> is started
+in background thread. Each <a href="../simplelog/struct.Logger.html">Logger</a> instance talks to the backend
+over crossbeam::channel::unbounded channels and the backend
+is responsible of doing the logging. This makes for single-writer
+situation, which works well with stdout and file-logging.</p>
+<h1 id="version-control" class="section-header"><a href="#version-control">Version control</a></h1>
+<p>Version control is available at Github: <a href="https://github.com/mpuromaki/training-rust-logger">https://github.com/mpuromaki/training-rust-logger</a></p>
+<h1 id="examples" class="section-header"><a href="#examples">Examples</a></h1>
+<p>Create logger to stdout and send messages.</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered">
+<span class="comment">// First create and run the logging backend</span>
+<span class="comment">// with configuration to log to stdout.</span>
+<span class="kw">let</span> <span class="ident">backend_channel</span> <span class="op">=</span> <span class="ident">simplelog</span>::<span class="ident">Backend</span>::<span class="ident">new</span>()
+    .<span class="ident">name</span>(<span class="string">&quot;logging-test-backend&quot;</span>)
+    .<span class="ident">to_stdout</span>()
+    .<span class="ident">build</span>();
+
+<span class="comment">// Then create local Logger instance to start</span>
+<span class="comment">// logging. The LogLevel is set to LogLevel::Info</span>
+<span class="comment">// to allow all messages with priority Info or</span>
+<span class="comment">// higher to be logged.</span>
+<span class="kw">let</span> <span class="ident">logger</span> <span class="op">=</span> <span class="ident">simplelog</span>::<span class="ident">Logger</span>::<span class="ident">new</span>(
+   <span class="ident">String</span>::<span class="ident">from</span>(<span class="string">&quot;logging-test-frontend&quot;</span>),
+   <span class="ident">simplelog</span>::<span class="ident">LogLevel</span>::<span class="ident">Info</span>,
+   <span class="kw-2">&amp;</span><span class="ident">backend_channel</span>,
+);
+
+<span class="comment">// Create DEBUG message. This will be filtered out.</span>
+<span class="ident">logger</span>.<span class="ident">debug</span>(<span class="string">&quot;Message which will never be received.&quot;</span>);
+
+<span class="comment">// Create WARN message. This will be passed on to Backend.</span>
+<span class="ident">logger</span>.<span class="ident">warn</span>(<span class="string">&quot;Message which will be printed to stdout.&quot;</span>);
+<span class="comment">// logging-test-frontend - WARN - {time} - Message which will be printed to stdout.</span>
+</pre></div>
+</div><h2 id='reexports' class='section-header'><a href="#reexports">Re-exports</a></h2>
+<table><tr><td><code>pub use backend::<a class="struct" href="../simplelog/backend/struct.Backend.html" title="struct simplelog::backend::Backend">Backend</a>;</code></td></tr><tr><td><code>pub use types::<a class="enum" href="../simplelog/types/enum.LogLevel.html" title="enum simplelog::types::LogLevel">LogLevel</a>;</code></td></tr><tr><td><code>pub use types::<a class="struct" href="../simplelog/types/struct.LoggingChannel.html" title="struct simplelog::types::LoggingChannel">LoggingChannel</a>;</code></td></tr><tr><td><code>pub use types::<a class="enum" href="../simplelog/types/enum.LoggingMessage.html" title="enum simplelog::types::LoggingMessage">LoggingMessage</a>;</code></td></tr></table><h2 id='modules' class='section-header'><a href="#modules">Modules</a></h2>
+<table><tr class='module-item'><td><a class="mod" href="backend/index.html" title='simplelog::backend mod'>backend</a></td><td class='docblock-short'></td></tr><tr class='module-item'><td><a class="mod" href="types/index.html" title='simplelog::types mod'>types</a></td><td class='docblock-short'></td></tr></table><h2 id='structs' class='section-header'><a href="#structs">Structs</a></h2>
+<table><tr class='module-item'><td><a class="struct" href="struct.Logger.html" title='simplelog::Logger struct'>Logger</a></td><td class='docblock-short'></td></tr></table></section><section id="search" class="content hidden"></section><section class="footer"></section><script>window.rootPath = "../";window.currentCrate = "simplelog";</script><script src="../aliases.js"></script><script src="../main.js"></script><script defer src="../search-index.js"></script></body></html>
