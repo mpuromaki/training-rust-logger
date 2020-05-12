@@ -1,0 +1,15 @@
+[package]
+name = "simplelog"
+version = "0.1.0"
+authors = ["Marko Puromäki <mpuromaki@gmail.com>"]
+edition = "2018"
+readme = "README.md"
+homepage = "https://github.com/mpuromaki/training-rust-logger"
+repository = "https://github.com/mpuromaki/training-rust-logger"
+license-file = "LICENSE"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+chrono = "0.4"
+crossbeam = "0.7"
