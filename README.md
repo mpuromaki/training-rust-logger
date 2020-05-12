@@ -43,9 +43,12 @@ logger.warn("Message which will be printed to stdout.");
 
 ## Building
 
+The rustdoc documentation is automatically hosted from /docs/ folder with
+Github Pages.
+
 ```sh
 cargo test
 cargo build
 cargo doc --no-deps
-mv /target/docs/* /rustdoc/*
+mv /target/doc/* /docs/*
 ```
